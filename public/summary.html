@@ -115,16 +115,18 @@
             color: #333;
             margin-bottom: 8px;
             font-size: 15px;
+            display: block;
+            text-align: left;
         }
         
-        .form-select,
-        .form-input {
+        .form-select {
             width: 100%;
             padding: 14px;
             border: 1px solid #ddd;
             border-radius: 12px;
             font-size: 16px;
             margin-bottom: 16px;
+            background: white;
         }
         
         .summary-box {
@@ -132,6 +134,8 @@
             padding: 16px;
             border-radius: 16px;
             font-size: 14px;
+            text-align: left;
+            margin-top: 15px;
         }
         
         .summary-row {
@@ -181,8 +185,8 @@
             width: 100%;
             max-width: 480px;
         }
-        /* Spinner Overlay - Transparent Bluish */
         
+        /* Spinner Overlay - Transparent Bluish */
         #spinnerOverlay {
             position: fixed;
             top: 0;
@@ -190,7 +194,6 @@
             width: 100%;
             height: 100%;
             background: rgba(0, 102, 255, 0.15);
-            /* Transparent bluish */
             display: none;
             justify-content: center;
             align-items: center;
@@ -216,8 +219,8 @@
                 transform: rotate(360deg);
             }
         }
-        /* Success Overlay */
         
+        /* Success Overlay */
         #successOverlay {
             position: fixed;
             top: 0;
@@ -318,6 +321,7 @@
                 <div class="progress-fill"></div>
             </div>
             <div class="step-text">Step 3 of 3</div>
+            
             <label class="form-label">Employment Status</label>
             <select class="form-select" id="employmentStatus">
                 <option>Employed</option>
@@ -325,8 +329,7 @@
                 <option>Unemployed</option>
                 <option>Student</option>
             </select>
-            <label class="form-label">Annual Income ($)</label>
-            <input type="number" class="form-input" id="annualIncome" placeholder="50000">
+            
             <div class="summary-box" id="summaryBox">
                 <!-- Filled dynamically by JavaScript -->
             </div>
@@ -337,10 +340,12 @@
         </div>
     </main>
     <footer>© 2025 EcoCash</footer>
+
     <!-- Spinner Overlay (Transparent Bluish) -->
     <div id="spinnerOverlay">
         <div class="spinner"></div>
     </div>
+
     <!-- Success Overlay -->
     <div id="successOverlay">
         <div class="success-card">
@@ -356,6 +361,7 @@
             <button class="go-login-btn" onclick="window.location.href='login.html'">Go to Login Now</button>
         </div>
     </div>
+
     <script>
         const summaryBox = document.getElementById('summaryBox');
         summaryBox.innerHTML = `
@@ -367,27 +373,24 @@
             <div class="summary-row"><span>Email:</span><span class="summary-value">${localStorage.getItem('email') || 'N/A'}</span></div>
             <div class="summary-row"><span>Phone:</span><span class="summary-value">+263 ${localStorage.getItem('phone') || 'N/A'}</span></div>
         `;
+        
         if (localStorage.getItem('employmentStatus')) {
             document.getElementById('employmentStatus').value = localStorage.getItem('employmentStatus');
         }
-        if (localStorage.getItem('annualIncome')) {
-            document.getElementById('annualIncome').value = localStorage.getItem('annualIncome');
-        }
+
         document.getElementById('submitBtn').addEventListener('click', function() {
-            const income = document.getElementById('annualIncome').value.trim();
-            if (!income || income < 1000) {
-                alert('Please enter a valid annual income (minimum $1,000).');
-                return;
-            }
+            // Save employment status choice
             localStorage.setItem('employmentStatus', document.getElementById('employmentStatus').value);
-            localStorage.setItem('annualIncome', income);
+            
             // Show transparent bluish spinner for 3 seconds
             const spinnerOverlay = document.getElementById('spinnerOverlay');
             spinnerOverlay.style.display = 'flex';
+            
             setTimeout(() => {
                 spinnerOverlay.style.display = 'none';
                 const successOverlay = document.getElementById('successOverlay');
                 successOverlay.style.display = 'flex';
+                
                 // Countdown 3 seconds then auto redirect
                 let seconds = 3;
                 const countdownEl = document.getElementById('countdown');
